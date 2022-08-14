@@ -1,0 +1,5 @@
+---
+ - hosts: k8s-replicas
+   become : true
+   roles : 
+     - kubeadm-init-other-master

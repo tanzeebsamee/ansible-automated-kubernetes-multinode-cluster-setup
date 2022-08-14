@@ -1,0 +1,15 @@
+apiVersion: kubeadm.k8s.io/v1beta2
+controlPlaneEndpoint: "{{virtual_ip}}:6443"
+etcd: 
+  external: 
+    endpoints: 
+      - "http://{{first_master_ip}}:2379"
+      - "http://{{second_master_ip}}:2379"
+      - "http://{{third_master_ip}}:2379"
+kind: ClusterConfiguration
+kubernetesVersion: stable
+networking: 
+  podSubnet: {{pod_network}}
+apiServer: 
+  extraArgs: 
+    advertise-address: "{{ansible_ens192.ipv4.address}}"

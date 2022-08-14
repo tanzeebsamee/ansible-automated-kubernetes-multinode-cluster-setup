@@ -1,0 +1,28 @@
+---
+ - name: "copy {{item}} to other masters"
+   copy: 
+     src: /tmp/pki/{{item}}
+     dest: /etc/kubernetes/pki/{{item}}
+   with_items:
+     - ca.crt
+     - ca.key
+     - sa.key
+     - sa.pub
+
+ - name: kubeadm init
+   shell: kubeadm init --config=/home/kubeadm-ha/kubeadm-config.yaml
+
+ - name: create .kube folder
+   file:
+    path: "~{{ ansible_ssh_user }}/.kube"
+    state: directory
+    owner: "{{ ansible_ssh_user }}"
+    group: "{{ ansible_ssh_user }}"
+
+ - name: Copy admin.conf to .kube folder
+   copy:
+     src: /etc/kubernetes/admin.conf
+     dest: "~{{ ansible_ssh_user }}/.kube/config"
+     owner: "{{ ansible_ssh_user }}"
+     group: "{{ ansible_ssh_user }}"
+     remote_src: yes

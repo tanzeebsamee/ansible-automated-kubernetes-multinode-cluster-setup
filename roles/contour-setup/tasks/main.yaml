@@ -1,0 +1,8 @@
+---
+ - name: copying contour.yaml to master 1
+   template:
+     src: contour.yaml
+     dest: /home/kubeadm-ha/contour.yaml
+
+ - name: applying contour.yaml to master 1
+   shell : kubectl apply -f /home/kubeadm-ha/contour.yaml

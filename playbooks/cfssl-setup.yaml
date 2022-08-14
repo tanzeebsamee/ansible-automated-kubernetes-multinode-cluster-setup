@@ -1,0 +1,6 @@
+---
+ - hosts: k8s-masters 
+   gather_facts: false 
+   become: true
+   roles:
+     - cfssl-setup

@@ -1,0 +1,13 @@
+---
+ - name: version-lock-kubernetes
+   yum:
+     name: "{{item}}"
+   with_items:
+     - kubelet
+     - kubeadm
+     - kubectl
+     - etcd
+     - keepalived
+     - containerd-io
+     
+     

@@ -1,0 +1,73 @@
+
+## Here shall go all masters
+[k8s-masters]
+k8s-master01 ansible_usehost=192.168.1.114
+k8s-master02 ansible_usehost=192.168.1.112
+k8s-master03 ansible_usehost=192.168.1.113
+
+
+## Here shall go all workers
+[k8s-workers]
+k8s-worker01 ansible_usehost=192.168.1.115
+
+## Here shall go all masters, except master 1
+[k8s-replicas]
+k8s-master02 ansible_usehost=192.168.1.112
+k8s-master03 ansible_usehost=192.168.1.113
+
+## Here shall go only master 1
+[k8s-master-01]
+k8s-master01 ansible_usehost=192.168.1.114
+
+[all:vars]
+
+# Here shall go containerd version which is planned for installation
+containerd_version=1.4.12
+
+# Here shall go kubernetes version which is planned for installation
+kubernetes_version=1.22.7
+
+# Here shall go kubernetes components version which is planned for installation
+kubelet_version=1.22.7
+kubeadm_version=1.22.7
+kubectl_version=1.22.7
+
+# Here shall go virtual_ip mentioned at check_apiserver.sh file  and control_plane_endpoint at config.yaml which is planned for installation
+virtual_ip=192.168.1.109
+
+# Here shall go first master, second master, third master hostname which is planned for installation
+first_master=k8s-master01
+second_master=k8s-master02
+third_master=k8s-master03
+
+# Here shall go metallb system IP pool which is planned for installation
+metallb_ip=192.168.1.114-192.168.1.116
+
+# Here shall go POD Network CIDR which is planned for installation
+pod_network=192.168.0.0/16
+
+
+# Here shall go first master, second master, third master IP Address which is planned for installation
+first_master_ip=192.168.1.114
+second_master_ip=192.168.1.112
+third_master_ip=192.168.1.113
+
+
+# Here shall go network interface card name of the platform which is planned for installation
+network_interface=ens192
+
+
+# Here shall go first worker, second worker, third worker hostname which is planned for installation
+first_worker=k8s-worker01
+first_worker_ip=192.168.1.115
+second_worker=
+second_worker_ip=
+third_worker=
+third_worker_ip=
+
+
+# Here shall go control_plane_endpoint at config.yaml which is planned for installation
+kube_api_server=192.168.1.109
+
+# Here shall go virtual_router_id
+virtual_router_id=

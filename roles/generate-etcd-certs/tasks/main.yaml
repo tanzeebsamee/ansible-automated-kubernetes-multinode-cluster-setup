@@ -1,0 +1,34 @@
+---
+ - name: Copy ca-cert config files
+   copy:
+     src: certs/
+     dest: /etc/etcdk8s/ssl/
+     
+ - name: Generate CA certs 
+   shell: |
+     cd /etc/etcdk8s/ssl
+     /usr/local/bin/cfssl gencert -initca ca-csr.json | /usr/local/bin/cfssljson -bare ca -
+
+ - name: Generate etcd client certs
+   shell: |
+     cd /etc/etcdk8s/ssl
+     /usr/local/bin/cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=client client.json | /usr/local/bin/cfssljson -bare client
+
+ - name: get etcd certs locally from master0
+   become: true
+   fetch:
+     src: /etc/etcdk8s/ssl/{{item}}
+     dest: /tmp/etcd/{{item}}
+     flat: yes
+   with_items:
+     - ca-config.json
+     - ca.pem
+     - ca-key.pem
+     - client.pem
+     - client-key.pem
+     - client.json
+     - ca.csr
+     - ca-csr.json
+     - client.csr
+     
+    

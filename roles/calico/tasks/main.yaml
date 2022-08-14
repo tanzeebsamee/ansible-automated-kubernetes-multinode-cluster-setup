@@ -1,0 +1,9 @@
+---
+ - name: copy calico.yaml to master 1
+   template: 
+     src: calico.yaml
+     dest: /home/kubeadm-ha/calico.yaml
+
+ - name: deploying calico cni pod network
+   shell: kubectl apply -f /home/kubeadm-ha/calico.yaml
+   

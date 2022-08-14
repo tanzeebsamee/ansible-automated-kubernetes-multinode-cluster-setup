@@ -1,0 +1,7 @@
+---
+ - hosts: k8s-workers
+   gather_facts: false
+   become: true
+   roles:
+     - setup-firewalld-worker
+

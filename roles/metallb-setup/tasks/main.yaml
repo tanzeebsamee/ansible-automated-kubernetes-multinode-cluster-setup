@@ -1,0 +1,31 @@
+---
+ - name: copy metallb-namespace.yaml file to other master 1
+   template: 
+     src: namespace.yaml
+     dest: /home/kubeadm-ha/namespace.yaml
+
+ - name: copy metallb-metallb.yaml file to other master 1
+   template: 
+     src: metallb.yaml
+     dest: /home/kubeadm-ha/metallb.yaml
+
+ - name: copy metallb-configmap.yaml file to other master 1
+   template: 
+     src: configmap.yaml
+     dest: /home/kubeadm-ha/configmap.yaml
+
+ - name: kubectl apply metallb namespace file
+   shell: kubectl apply -f /home/kubeadm-ha/namespace.yaml
+
+ - name: creating metallb secret
+   shell: kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
+
+ - name: kubectl apply metallb configmap file
+   shell: kubectl apply -f /home/kubeadm-ha/configmap.yaml
+
+ - name: kubectl apply metallb deployment file
+   shell: kubectl apply -f /home/kubeadm-ha/metallb.yaml
+
+
+
+

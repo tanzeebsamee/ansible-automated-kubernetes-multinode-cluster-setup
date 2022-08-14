@@ -1,0 +1,28 @@
+---
+ - name: install keepalived
+   yum:
+     name: keepalived
+     state: latest
+
+ - name: deploy keepalived script
+   template:
+     src: check_apiserver.sh
+     dest: /etc/keepalived/check_apiserver.sh
+     mode: "777"
+
+ - name: deleting existing keepalived config file
+   file:
+      path: /etc/keepalived/keepalived.conf
+      state: absent
+
+ - name: deploy keepalived config
+   template:
+     src: keepalived.conf
+     dest: /etc/keepalived/keepalived.conf
+     
+ - name: restart keepalived
+   systemd:
+     state: restarted
+     daemon_reload: yes
+     name: keepalived
+     enabled: yes

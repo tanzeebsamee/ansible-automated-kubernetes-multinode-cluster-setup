@@ -1,0 +1,20 @@
+---
+ - name: adding /etc/hosts entry to all nodes
+   blockinfile:
+     path: /etc/hosts
+     state: present
+     block: |
+       {{ first_master_ip }} {{ first_master }}
+       {{ second_master_ip }} {{ second_master }}
+       {{ third_master_ip }} {{ third_master }}
+       {{ first_worker_ip }} {{ first_worker }}
+       {{ second_worker_ip }} {{ second_worker }}
+       {{ third_worker_ip }} {{ third_worker }}
+       {{ fourth_worker_ip }} {{ fourth_worker }}
+       {{ fifth_worker_ip }} {{ fifth_worker }}
+       {{ sixth_worker_ip }} {{ sixth_worker }}
+       {{ seventh_worker_ip }} {{ seventh_worker }}
+       {{ eighth_worker_ip }} {{ eighth_worker }}
+       {{ ninth_worker_ip }} {{ ninth_worker }}
+       10.96.65.33 docker-registry.bkash.com 
+       

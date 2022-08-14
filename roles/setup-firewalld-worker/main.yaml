@@ -1,0 +1,21 @@
+---
+ - name: disabling firewalld service
+   systemd:
+     state: stopped
+     name: firewalld
+     enabled: no
+     masked: yes
+ 
+ - name: Open ports
+   shell: |
+     iptables -I INPUT -p tcp -m tcp --dport 6443 -j ACCEPT
+     iptables -I INPUT -p tcp -m tcp --dport 2379:2380 -j ACCEPT
+     iptables -I INPUT -p tcp -m tcp --dport 10250:10252 -j ACCEPT
+     iptables -I INPUT -p tcp -m tcp --dport 30000:32767 -j ACCEPT
+     iptables -I INPUT -p tcp -m tcp --dport 179 -j ACCEPT
+     iptables -I INPUT -p tcp -m tcp --dport 7946  -j ACCEPT
+     iptables -I INPUT -p tcp -m tcp --dport 2049 -j ACCEPT
+     iptables -I INPUT -p udp -m udp --dport 2049 -j ACCEPT
+     sudo iptables -P FORWARD ACCEPT
+     sudo service iptables save
+     sudo systemctl restart iptables

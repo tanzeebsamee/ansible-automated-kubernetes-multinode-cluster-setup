@@ -1,0 +1,47 @@
+---  
+ - name: Cleaning yum metadata
+   command: rm -fr /var/cache/yum/*
+   
+ - name: Removing yum metadata 
+   command: yum clean all 
+
+ - name: Install containerd runtime 
+   yum: 
+     name: containerd.io-{{containerd_version}} 
+     state: installed   
+
+ - name: Copying containerd.conf file to /etc/modules-load.d/containerd.conf
+   template: 
+     src: containerd.conf
+     dest: /etc/modules-load.d/containerd.conf
+
+ - name: loading kernel driver overlay for containerd 
+   modprobe: 
+     name: overlay
+     state: present
+
+ - name: loading kernel driver br_netfilter for containerd 
+   modprobe: 
+     name: br_netfilter
+     state: present 
+
+ - name: creating /etc/containerd folder 
+   file: 
+     path: /etc/containerd 
+     state: directory 
+
+ - name: editing /etc/containerd/config.toml 
+   command: containerd config default | sudo tee /etc/containerd/config.toml
+
+ - name: editing level parameter for /etc/containerd/config.toml 
+   command: sed -i 's/level = ""/level = "warn"/' /etc/containerd/config.toml
+
+ - name: editing cgroup parameter for /etc/containerd/config.toml 
+   command: sed  -i '/options]$/a \\t    SystemdCgroup\=true' /etc/containerd/config.toml
+   
+ - name: restart and enable containerd 
+   systemd: 
+     name: containerd  
+     state: restarted
+     daemon_reload: yes
+     enabled: yes

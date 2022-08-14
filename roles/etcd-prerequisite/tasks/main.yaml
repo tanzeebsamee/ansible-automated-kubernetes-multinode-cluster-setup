@@ -1,0 +1,26 @@
+---
+ - name: copying etcd certs for each master node
+   copy: 
+     src: /tmp/etcd/{{item}}
+     dest: /etc/etcdk8s/ssl/{{item}}
+   with_items:
+     - ca-config.json
+     - ca.pem
+     - ca-key.pem
+     - client.pem
+     - client-key.pem
+     - ca-csr.json
+     - client.json
+     - ca.csr
+     - ca-csr.json
+     - client.csr
+ 
+
+ - name: copying etcd script to each master node
+   copy:
+     src: script/
+     dest: /home/kubeadm-ha/etcd-check.sh
+     mode: "777"
+
+ - name: running script
+   command: bash /home/kubeadm-ha/etcd-check.sh/etcd-check.sh

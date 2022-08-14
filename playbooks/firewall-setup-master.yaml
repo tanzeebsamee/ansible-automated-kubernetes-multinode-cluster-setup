@@ -1,0 +1,7 @@
+---
+ - hosts: k8s-masters
+   gather_facts: false
+   become: true
+   roles:
+     - setup-firewalld-master
+

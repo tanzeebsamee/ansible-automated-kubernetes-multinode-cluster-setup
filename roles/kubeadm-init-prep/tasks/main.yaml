@@ -1,0 +1,5 @@
+---
+ - name: Copy kubeadm init config
+   template:
+     src: kubeadm-config.yaml
+     dest: /home/kubeadm-ha/
